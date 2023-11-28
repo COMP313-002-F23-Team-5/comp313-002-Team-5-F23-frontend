@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Pred.css';
 import graphImage from '../../assets/graph.png';
 
 export default function Pred() {
   const [selectedPeriod, setSelectedPeriod] = useState('');
-  const [predictionValues, setPredictionValues] = useState([]);
-  const [predictionGraph, setPredictionGraph] = useState('');
 
   // Dummy data for stock predictions
   const stockPredictions = {
@@ -62,30 +60,6 @@ export default function Pred() {
     // setGraphImage(`path-to-${period}-graph-image.png`);
   };
 
-  // Example function to fetch data from the API
-  const fetchData = async (period) => {
-    try {
-      const response = await fetch(`https://testinggroup5sp.azurewebsites.net/api/get_predictions?code=PG-6Zy9_8LC9fOuuvg_3081lvplZ-miI6nuwR34cq1pqAzFuDyfrFw==&days=${period}`);
-      const data = await response.json();
-
-      if (data.status === 'ok') {
-        setPredictionValues(data.prediction_values);
-        setPredictionGraph(data.prediction_graph);
-      } else {
-        // Handle error case
-        console.error('API request failed:', data.msg);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    // Fetch initial data when the component mounts
-    fetchData(selectedPeriod);
-  }, [selectedPeriod]); // Re-fetch data when selectedPeriod changes
-
-
   return (
     <div className="pred-content">
       <h1>Stock Prediction</h1>
@@ -125,14 +99,6 @@ export default function Pred() {
             </table>
           </div>
         </>
-      )}
-
-      
-      {/* Display prediction graph */}
-      {predictionGraph && (
-        <div className="graph-container">
-          <img src={`data:image/png;base64, ${predictionGraph}`} alt="Stock Prediction Graph" />
-        </div>
       )}
     </div>
   );
