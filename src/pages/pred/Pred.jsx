@@ -6,6 +6,8 @@ export default function Pred() {
   const [selectedPeriod, setSelectedPeriod] = useState('');
   const [predictionValues, setPredictionValues] = useState([]);
   const [predictionGraph, setPredictionGraph] = useState('');
+  const [loading, setLoading] = useState(false);
+
 
   // Dummy data for stock predictions
   const stockPredictions = {
@@ -54,12 +56,21 @@ export default function Pred() {
     ],
   };
 
-  const handlePeriodChange = (event) => {
+  const handlePeriodChange = async (event) => {
     const period = event.target.value;
     setSelectedPeriod(period);
     // Here you would also update the graphImage state with the image for the selected period
     // For example:
     // setGraphImage(`path-to-${period}-graph-image.png`);
+
+    // Set loading state to true
+    setLoading(true);
+
+    // Make an API request with the selected period and update state
+    await fetchData(period);
+
+    // Set loading state to false after the request is completed
+    setLoading(false);
   };
 
   // Example function to fetch data from the API
@@ -82,7 +93,9 @@ export default function Pred() {
 
   useEffect(() => {
     // Fetch initial data when the component mounts
-    fetchData(selectedPeriod);
+    if (selectedPeriod) {
+      handlePeriodChange({ target: { value: selectedPeriod } });
+    }
   }, [selectedPeriod]); // Re-fetch data when selectedPeriod changes
 
 
@@ -106,38 +119,41 @@ export default function Pred() {
           <option value="40">40 Days</option>
         </select>
       </div>
-      {selectedPeriod && ( // Only display the graph and predictions if a period has been selected
-        <>
-          <div className="graph-container">
-            <img src={graphImage} alt="Stock Prediction Graph" />
-          </div>
-          <div className="predictions-table-container">
-            <table className="predictions-table">
-              <thead>
-                <tr>
-                  <th>Day</th>
-                  <th>Prediction</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stockPredictions[selectedPeriod]?.map((prediction, index) => (
-                  <tr key={index}>
-                    <td>{prediction.day}</td>
-                    <td>{prediction.prediction}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
 
-      
-      {/* Display prediction graph */}
-      {predictionGraph && (
-        <div className="graph-container">
-          <img src={`data:image/png;base64, ${predictionGraph}`} alt="Stock Prediction Graph" />
-        </div>
+      {/* Display loading message if data is being fetched */}
+      {loading && <p>Loading...</p>}
+
+      {!loading && selectedPeriod && ( // Only display the graph and predictions if a period has been selected
+        <>
+          {/* Display prediction graph */}
+          {!loading && predictionGraph && (
+            <div className="graph-container">
+              <img src={`data:image/png;base64, ${predictionGraph}`} alt="Stock Prediction Graph" />
+            </div>
+          )}
+
+          {/* Display prediction values */}
+          {!loading && predictionValues.length > 0 && (
+            <div className="predictions-table-container">
+              <table className="predictions-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Prediction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {predictionValues.map((prediction, index) => (
+                    <tr key={index}>
+                      <td>{prediction.date}</td>
+                      <td>{prediction.prediction}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
