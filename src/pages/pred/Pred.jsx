@@ -8,60 +8,9 @@ export default function Pred() {
   const [predictionGraph, setPredictionGraph] = useState('');
   const [loading, setLoading] = useState(false);
 
-
-  // Dummy data for stock predictions
-  const stockPredictions = {
-    '7 Days': [
-      { day: 'Day 1', prediction: '548.40' },
-      { day: 'Day 2', prediction: '556.74' },
-      { day: 'Day 3', prediction: '548.40' },
-      { day: 'Day 4', prediction: '556.74' },
-      { day: 'Day 5', prediction: '548.40' },
-      { day: 'Day 6', prediction: '556.74' },
-      { day: 'Day 7', prediction: '548.40' }
-    ],
-    '10 Days': [
-      { day: 'Day 1', prediction: '548.40' },
-      { day: 'Day 2', prediction: '556.74' },
-      { day: 'Day 3', prediction: '548.40' },
-      { day: 'Day 4', prediction: '556.74' },
-      { day: 'Day 5', prediction: '548.40' },
-      { day: 'Day 6', prediction: '556.74' },
-      { day: 'Day 7', prediction: '548.40' },
-      { day: 'Day 8', prediction: '556.74' },
-      { day: 'Day 9', prediction: '548.40' },
-      { day: 'Day 10', prediction: '556.74' }
-    ],
-    '20 Days': [
-      { day: 'Day 1', prediction: '548.40' },
-      { day: 'Day 2', prediction: '556.74' },
-      { day: 'Day 3', prediction: '548.40' },
-      { day: 'Day 4', prediction: '556.74' },
-      { day: 'Day 5', prediction: '548.40' },
-      { day: 'Day 6', prediction: '556.74' },
-      { day: 'Day 7', prediction: '548.40' },
-      { day: 'Day 8', prediction: '556.74' },
-      { day: 'Day 9', prediction: '548.40' },
-      { day: 'Day 10', prediction: '556.74' },
-      { day: 'Day 11', prediction: '548.40' },
-      { day: 'Day 12', prediction: '556.74' },
-      { day: 'Day 13', prediction: '548.40' },
-      { day: 'Day 14', prediction: '556.74' },
-      { day: 'Day 15', prediction: '548.40' },
-      { day: 'Day 16', prediction: '556.74' },
-      { day: 'Day 17', prediction: '548.40' },
-      { day: 'Day 18', prediction: '556.74' },
-      { day: 'Day 19', prediction: '548.40' },
-      { day: 'Day 20', prediction: '556.74' }
-    ],
-  };
-
   const handlePeriodChange = async (event) => {
     const period = event.target.value;
     setSelectedPeriod(period);
-    // Here you would also update the graphImage state with the image for the selected period
-    // For example:
-    // setGraphImage(`path-to-${period}-graph-image.png`);
 
     // Set loading state to true
     setLoading(true);
