@@ -96,9 +96,14 @@ export default function Pred() {
           className="period-dropdown"
         >
           <option value="">Please Select Prediction</option> {/* Default option added */}
-          <option value="7 Days">7 Days</option>
-          <option value="10 Days">10 Days</option>
-          <option value="20 Days">20 Days</option>
+          <option value="7">7 Days</option>
+          <option value="10">10 Days</option>
+          <option value="15">15 Days</option>
+          <option value="20">20 Days</option>
+          <option value="25">25 Days</option>
+          <option value="30">30 Days</option>
+          <option value="35">35 Days</option>
+          <option value="40">40 Days</option>
         </select>
       </div>
       {selectedPeriod && ( // Only display the graph and predictions if a period has been selected
