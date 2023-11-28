@@ -73,6 +73,13 @@ export default function Pred() {
     setLoading(false);
   };
 
+  const formatCurrency = (value) => {
+    return value.toLocaleString('en-CA', {
+      style: 'currency',
+      currency: 'CAD'
+    });
+  };
+
   // Example function to fetch data from the API
   const fetchData = async (period) => {
     try {
@@ -80,7 +87,13 @@ export default function Pred() {
       const data = await response.json();
 
       if (data.status === 'ok') {
-        setPredictionValues(data.prediction_values);
+        // Format prediction values
+        const formattedPredictions = data.prediction_values.map(prediction => ({
+          date: prediction.date,
+          prediction: formatCurrency(prediction.prediction)
+        }));
+
+        setPredictionValues(formattedPredictions);
         setPredictionGraph(data.prediction_graph);
       } else {
         // Handle error case
@@ -97,7 +110,6 @@ export default function Pred() {
       handlePeriodChange({ target: { value: selectedPeriod } });
     }
   }, [selectedPeriod]); // Re-fetch data when selectedPeriod changes
-
 
   return (
     <div className="pred-content">
