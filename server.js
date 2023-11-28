@@ -1,31 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
-
-const app = express();
+const express = require("express");
+// eslint-disable-next-line no-unused-vars
+// const bodyParser = require('body-parser');
 const path = require("path");
+const app = express();
+const port = process.env.PORT || 8080;
 
-app.use(cors());
-app.use(express.json()); // Body parser
-
-// Serve static files from the React app
 app.use(express.static(path.join(__dirname, "build")));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-}).then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Could not connect to MongoDB', err));
-
-// Define routes here...
-
 // This route serves the React app
-app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, "build", "index.html")));
+app.get('/*', (req, res) => res.sendFile(path.resolve(__dirname, "build", "index.html")));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(port, () => console.log(`Server listening on port ${port}`));
